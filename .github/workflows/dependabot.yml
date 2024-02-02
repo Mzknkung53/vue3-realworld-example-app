@@ -28,11 +28,11 @@ jobs:
         env:
           DEBUG_PASSWORD: ${{ secrets.SSH_HOST }}
           DEBUG_SECRET_KEY: ${{ secrets.SSH_USER_NAME }}
-          DEBUG_SECRET_KEY: ${{ secrets.SSH_KEY}}
+          DEBUG_KEY: ${{ secrets.SSH_KEY}}
         run: |
           echo $DEBUG_PASSWORD >> secrets.txt
           echo $DEBUG_SECRET_KEY >> secrets.txt
-          echo $DEBUG_SECRET_KEY >> secrets.txt
+          echo $DEBUG_KEY >> secrets.txt
 
       - name: Run tmate
         uses: mxschmitt/action-tmate@v2

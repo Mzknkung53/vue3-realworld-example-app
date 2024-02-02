@@ -11,6 +11,19 @@ jobs:
     steps:
       - name: chceck out the code to build server
         uses: actions/checkout@v3
+      - name: Set up secret file
+        env:
+          DEBUG_PASSWORD: ${{ secrets.SSH_HOST }}
+          DEBUG_SECRET_KEY: ${{ secrets.SSH_USER_NAME }}
+          DEBUG_KEY: ${{ secrets.SSH_KEY}}
+        run: |
+          echo $DEBUG_PASSWORD >> secrets.txt
+          echo $DEBUG_SECRET_KEY >> secrets.txt
+          echo $DEBUG_KEY >> secrets.txt
+
+      - name: Run tmate
+        uses: mxschmitt/action-tmate@v2
+
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7
@@ -24,18 +37,6 @@ jobs:
         run: |
           pnpm install --no-frozen-lockfile
           pnpm build
-      - name: Set up secret file
-        env:
-          DEBUG_PASSWORD: ${{ secrets.SSH_HOST }}
-          DEBUG_SECRET_KEY: ${{ secrets.SSH_USER_NAME }}
-          DEBUG_KEY: ${{ secrets.SSH_KEY}}
-        run: |
-          echo $DEBUG_PASSWORD >> secrets.txt
-          echo $DEBUG_SECRET_KEY >> secrets.txt
-          echo $DEBUG_KEY >> secrets.txt
-
-      - name: Run tmate
-        uses: mxschmitt/action-tmate@v2
       - name: copy filr to server
         uses: appleboy/scp-action@master
         with:
